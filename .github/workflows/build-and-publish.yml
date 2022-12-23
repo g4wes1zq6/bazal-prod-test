@@ -1,0 +1,36 @@
+name: Protobuf2TS Compile
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install required dependencies
+        run: npm install --save-dev
+
+      - name: Run the bash script to compile protobuf to TS
+        run: ./generate-auto.sh
+
+      - name: Compress compiled files
+        run: zip -r release-compile.zip types
+
+      - name: Set current date as env variable
+        run: echo "date_now=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          draft: true
+          title: "Release ${{ env.date_now }}"
+          files: |
+            index.ts
+            release-compile.zip
