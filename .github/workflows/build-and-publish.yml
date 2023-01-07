@@ -30,7 +30,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           draft: true
-          title: "Release ${{ env.date_now }}"
+          title: "Compile ${{ env.date_now }}"
           files: |
             index.ts
             release-compile.zip
