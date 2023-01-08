@@ -26,14 +26,14 @@ jobs:
         run: echo "date_now=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Set generated tag as environment variable
-        run: export DRAFT_TAG=$(echo $RANDOM | md5sum | head -c 10)
+        run: "echo "rand_tag=$($RANDOM | md5sum | head -c 10)" >> $GITHUB_ENV
 
       - uses: actions/create-release@v1
         id: get_release
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
-          tag_name: "${{ DRAFT_TAG }}"
+          tag_name: "${{ env.rand_tag }}"
           release_name: "Compilation for ${{ env.date_now }}"
           draft: true
           prerelease: false
