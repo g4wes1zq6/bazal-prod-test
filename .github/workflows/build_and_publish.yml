@@ -26,7 +26,7 @@ jobs:
         run: echo "date_now=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Set generated tag as environment variable
-        run: echo "rand_tag=$($RANDOM | md5sum | head -c 10)" >> $GITHUB_ENV
+        run: echo "rand_tag=$(date +'%Y-%m-%d-%H-%m-%S' | md5sum | head -c 15)" >> $GITHUB_ENV
 
       - uses: actions/create-release@v1
         id: get_release
